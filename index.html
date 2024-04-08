@@ -56,42 +56,5 @@
 
   <h1>Flight Information</h1>
 
-
-<?php
-$chosen_db = isset($_GET['user_1_db']) ? $_GET['user_1_db'] : null;
-
-$default_host = 'sql_server';
-$default_port = 3306;
-$default_username = 'user_1';
-$default_password = 'password';
-
-function connect_to_db($host, $port, $username, $password, $db_name = null) {
-  $link = mysqli_connect($host, $username, $password, $db_name);
-  if (!$link) {
-    die('Could not connect: ' . mysqli_connect_error()); // Use mysqli_connect_error for better error messages
-  }
-  echo 'Connected successfully to database: ' . ($db_name ? $db_name : 'default');
-
-  mysqli_close($link);
-}
-
-if ($chosen_db) {
-  $host = $default_host;
-  $port = $default_port;
-  $username = $default_username;
-  $password = $default_password;
-  $db_name = $chosen_db;
-} else {
-  $host = $default_host;
-  $port = $default_port;
-  $username = $default_username;
-  $password = $default_password;
-  $db_name = null; // Connect without specifying a database initially
-}
-
-connect_to_db($host, $port, $username, $password, $db_name);
-
-?>
-
 </body>
 </html>
