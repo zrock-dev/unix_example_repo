@@ -54,85 +54,87 @@
             ga('create','UA-XXXXX-X','auto');ga('send','pageview');
         </script>
 
-<h1>Flight Information</h1>
+  <h1>Flight Information</h1>
 
-<?php
-// Assuming your MySQL server is on 'localhost' and bound to port 3306
-$servername = "sql_server";
-$username = "user_1";
-$password = "password"; // Replace with actual password (avoid storing in script)
-$dbname = "user_1_db";
+  <?php
+  // Assuming your environment variable is set for the password
+  $servername = "sql_server";
+  $username = "user_1";
+  // Access password securely from environment variable
+  $password = getenv('MYSQL_PASSWORD');
+  $dbname = "user_1_db";
 
-// Enable detailed error reporting (development only)
-ini_set('display_errors', 1);
-ini_set('error_reporting', E_ALL); // Report all errors
+  // Enable detailed error reporting (development only)
+  ini_set('display_errors', 1);
+  ini_set('error_reporting', E_ALL); // Report all errors
 
-// Connect to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
+  // Connect to the database
+  $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection using a dedicated function for better error handling
-function check_connection_error($conn) {
-  if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error . "<br>");
-    die("Error Code: " . $conn->connect_errno); // Include error code
+  // Check connection using a dedicated function for better error handling
+  function check_connection_error($conn) {
+    if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error . "<br>");
+      die("Error Code: " . $conn->connect_errno); // Include error code
+    }
   }
-}
 
-check_connection_error($conn); // Call the function to handle connection errors
+  check_connection_error($conn); // Call the function to handle connection errors
 
-// Execute SQL query
-$sql = "SELECT * FROM flights";
-$result = $conn->query($sql);
+  // Execute SQL query
+  $sql = "SELECT * FROM flights";
+  $result = $conn->query($sql);
 
-// Check query execution using a dedicated function for clarity
-function check_query_error($result) {
-  if (!$result) {
-    die("Error executing query: " . $conn->error . "<br>");
+  // Check query execution using a dedicated function for clarity
+  function check_query_error($result) {
+    if (!$result) {
+      die("Error executing query: " . $conn->error . "<br>");
+    }
   }
-}
 
-check_query_error($result); // Call the function to handle query errors
+  check_query_error($result); // Call the function to handle query errors
 
-// Handle successful connection and query execution
-if ($result->num_rows > 0) {
-  echo "<table>";
-  echo "<tr>";
-    echo "<th>IP Address</th>";
-    echo "<th>Flight Number</th>";
-    echo "<th>Departure Airport</th>";
-    echo "<th>Arrival Airport</th>";
-    echo "<th>Departure Date</th>";
-    echo "<th>Arrival Date</th>";
-    echo "<th>Departure Time</th>";
-    echo "<th>Arrival Time</th>";
-    echo "<th>Flight Duration (Hours)</th>";
-    echo "<th>Airline</th>";
-    echo "<th>Aircraft Type</th>";
-  echo "</tr>";
-
-  // Output data of each row
-  while ($row = $result->fetch_assoc()) {
+  // Handle successful connection and query execution
+  if ($result->num_rows > 0) {
+    echo "<table>";
     echo "<tr>";
-      echo "<td>" . $row["ip_address"] . "</td>";
-      echo "<td>" . $row["flight_number"] . "</td>";
-      echo "<td>" . $row["departure_airport_code"] . "</td>";
-      echo "<td>" . $row["arrival_airport_code"] . "</td>";
-      echo "<td>" . $row["departure_date"] . "</td>";
-      echo "<td>" . $row["arrival_date"] . "</td>";
-      echo "<td>" . $row["departure_time"] . "</td>";
-      echo "<td>" . $row["arrival_time"] . "</td>";
-      echo "<td>" . $row["flight_duration_hours"] . "</td>";
-      echo "<td>" . $row["airline_name"] . "</td>";
-      echo "<td>" . $row["aircraft_type"] . "</td>";
+      echo "<th>IP Address</th>";
+      echo "<th>Flight Number</th>";
+      echo "<th>Departure Airport</th>";
+      echo "<th>Arrival Airport</th>";
+      echo "<th>Departure Date</th>";
+      echo "<th>Arrival Date</th>";
+      echo "<th>Departure Time</th>";
+      echo "<th>Arrival Time</th>";
+      echo "<th>Flight Duration (Hours)</th>";
+      echo "<th>Airline</th>";
+      echo "<th>Aircraft Type</th>";
     echo "</tr>";
-  }
-  echo "</table>";
-} else {
-  echo "0 results";
-}
 
-// Close connection
-$conn->close();
-?>
-    </body>
+    // Output data of each row
+    while ($row = $result->fetch_assoc()) {
+      echo "<tr>";
+        echo "<td>" . $row["ip_address"] . "</td>";
+        echo "<td>" . $row["flight_number"] . "</td>";
+        echo "<td>" . $row["departure_airport_code"] . "</td>";
+        echo "<td>" . $row["arrival_airport_code"] . "</td>";
+        echo "<td>" . $row["departure_date"] . "</td>";
+        echo "<td>" . $row["arrival_date"] . "</td>";
+        echo "<td>" . $row["departure_time"] . "</td>";
+        echo "<td>" . $row["arrival_time"] . "</td>";
+        echo "<td>" . $row["flight_duration_hours"] . "</td>";
+        echo "<td>" . $row["airline_name"] . "</td>";
+        echo "<td>" . $row["aircraft_type"] . "</td>";
+      echo "</tr>";
+    }
+    echo "</table>";
+  } else {
+    echo "0 results";
+  }
+
+  // Close connection
+  $conn->close();
+  ?>
+
+</body>
 </html>
