@@ -57,10 +57,10 @@
 <h1>Flight Information</h1>
 
 <?php
-// port 3306 
+// Assuming your MySQL server is on 'localhost' and bound to port 3306
 $servername = "sql_server";
 $username = "user_1";
-$password = "password"; 
+$password = "password"; // Replace with actual password (avoid storing in script)
 $dbname = "user_1_db";
 
 // Enable detailed error reporting (development only)
@@ -93,6 +93,7 @@ function check_query_error($result) {
 
 check_query_error($result); // Call the function to handle query errors
 
+// Handle successful connection and query execution
 if ($result->num_rows > 0) {
   echo "<table>";
   echo "<tr>";
